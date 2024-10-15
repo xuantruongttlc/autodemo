@@ -18,7 +18,6 @@ test.describe('login', () => {
         await expect(errorLocator).toBeVisible({ timeout: 5000 });
 
         const errorMessage = await errorLocator.textContent();
-        console.log('Lỗi trả về là:', errorMessage);
 
         await expect(errorMessage.trim()).toBe(expectedMessage);
         const closeButton = await errorLocator.locator('button');
@@ -26,7 +25,6 @@ test.describe('login', () => {
         // Nhấn nút đóng và kiểm tra rằng thông báo lỗi không còn hiển thị
         await closeButton.click();
         await expect(errorLocator).not.toBeVisible({ timeout: 5000 });
-        console.log('Thông báo lỗi đã được đóng.');
     };
 
     // TH bỏ trống username và password

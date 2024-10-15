@@ -35,10 +35,10 @@ test.describe('home', () => {
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
         const cart = await page.locator( '//a[@class=shopping_cart_link]');
 
-        let cartDem = await cart.textContent();
-        cartDem = parseInt(cartDem || '0');
+        let cartCount = await cart.textContent();
+        cartCount = parseInt(cartDem || '0');
 
-        if(cartDem > 0 ){
+        if(cartCount > 0 ){
             await resetApp.click();
             console.log('reset success')
             await expect(cart).toBeHidden();
