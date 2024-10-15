@@ -19,6 +19,8 @@ test.describe('home', () => {
     //tabbar about
 
     test('about', async ()=> {
+        await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+        await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
         await page.getByRole('button', { name: 'Open Menu' }).click();
         await page.click('id=about_sidebar_link');
 
@@ -31,27 +33,32 @@ test.describe('home', () => {
 
     //reset app state
     test('reset app state', async () => {
+        // Mở menu
         await page.getByRole('button', { name: 'Open Menu' }).click();
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
-        const cart = await page.locator( '//a[@class=shopping_cart_link]');
-
-        let cartCount = await cart.textContent();
-        cartCount = parseInt(cartCount || '0');
-
-        if(cartCount > 0 ){
-            await resetApp.click();
-            console.log('reset success')
-            await expect(cart).toBeHidden();
-            console.log('gio hang da xoa');
-        } 
-        else{
-            await page.click('[data-test="add-to-cart-sauce-labs-bike-light"]');;
-            await resetApp.click();
-            console.log('reset success')
-            await expect(cart).toBeHidden();
-            console.log('gio hang da xoa');
+        const cart = await page.locator('[data-test="shopping-cart-link"]');  
+        await page.waitForLoadState('networkidle'); 
+        const cartCountText = await cart.textContent();
+        const cartCount = parseInt(cartCountText.trim(), 10) || 0; 
+        console.log(`Số lượng sản phẩm trong giỏ hàng: ${cartCount}`);
+        if (cartCount > 0) {
+            console.log('reset product')
+            await resetApp.click(); 
+            console.log('Reset thành công');
+            await expect(cart).toHaveText('0'); // sửa lại cho đúng 
+            console.log('Giỏ hàng đã được cập nhật');
+        } else {
+            console.log('add product')
+            await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
+            await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
+            await resetApp.click(); 
+            console.log('Reset thành công');
+            await expect(cart).toHaveText(''); 
+            console.log('Giỏ hàng đã xóa');
         }
-    })
+    });
+    
+    
 
 
     //logout
