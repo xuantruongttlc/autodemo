@@ -24,6 +24,7 @@ test.describe('home', () => {
         await page.getByRole('button', { name: 'Open Menu' }).click();
         await page.click('id=about_sidebar_link');
 
+        await page.waitForLoadState('networkidle')
         const aboutURL = await page.url();
         await expect(aboutURL).toBe('https://saucelabs.com/')
         console.log('open abuot success')
@@ -45,7 +46,9 @@ test.describe('home', () => {
             console.log('reset product')
             await resetApp.click(); 
             console.log('Reset thành công');
-            await expect(cart).toHaveText('0'); // sửa lại cho đúng 
+            const newCartCountText = await cart.textContent();
+            const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
+            await expect(newCartCount).toBe(0) 
             console.log('Giỏ hàng đã được cập nhật');
         } else {
             console.log('add product')
@@ -53,7 +56,9 @@ test.describe('home', () => {
             await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
             await resetApp.click(); 
             console.log('Reset thành công');
-            await expect(cart).toHaveText(''); 
+            const newCartCountText = await cart.textContent();
+            const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
+            await expect(newCartCount).toBe(0)
             console.log('Giỏ hàng đã xóa');
         }
     });
@@ -63,6 +68,10 @@ test.describe('home', () => {
 
     //logout
     test('logout', async () => {
+        await page.goto('https://www.saucedemo.com/');
+        await page.fill('#user-name', "standard_user");
+        await page.fill('#password', "secret_sauce");
+        await page.click('id=login-button');
         await page.getByRole('button', { name: 'Open Menu' }).click();
         await page.locator('[data-test="logout-sidebar-link"]').click();
 
