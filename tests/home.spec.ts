@@ -36,7 +36,7 @@ test.describe('home', () => {
         const cart = await page.locator( '//a[@class=shopping_cart_link]');
 
         let cartCount = await cart.textContent();
-        cartCount = parseInt(cartDem || '0');
+        cartCount = parseInt(cartCount || '0');
 
         if(cartCount > 0 ){
             await resetApp.click();
