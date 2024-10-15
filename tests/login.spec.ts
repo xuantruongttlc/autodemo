@@ -11,10 +11,8 @@ test.describe('login', () => {
 
     // Hàm kiểm tra thông báo lỗi
     const checkErrorMessage = async (expectedMessage) => {
-        // Kiểm tra xem thông báo lỗi có tồn tại không
         const errorLocator = page.locator('h3[data-test=error]');
         
-        // Chờ để xem thông báo lỗi xuất hiện
         await expect(errorLocator).toBeVisible({ timeout: 5000 });
 
         const errorMessage = await errorLocator.textContent();
@@ -22,7 +20,6 @@ test.describe('login', () => {
         await expect(errorMessage.trim()).toBe(expectedMessage);
         const closeButton = await errorLocator.locator('button');
 
-        // Nhấn nút đóng và kiểm tra rằng thông báo lỗi không còn hiển thị
         await closeButton.click();
         await expect(errorLocator).not.toBeVisible({ timeout: 5000 });
     };
