@@ -12,7 +12,6 @@ test.describe('home', () => {
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
-        console.log('login success')
     });
 
  
@@ -38,28 +37,22 @@ test.describe('home', () => {
         await page.getByRole('button', { name: 'Open Menu' }).click();
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
         const cart = await page.locator('[data-test="shopping-cart-link"]');  
-        await page.waitForLoadState('networkidle'); 
+        await page.waitForLoadState('networkidle'); // cho khoang 500ms
         const cartCountText = await cart.textContent();
         const cartCount = parseInt(cartCountText.trim(), 10) || 0; 
         console.log(`Số lượng sản phẩm trong giỏ hàng: ${cartCount}`);
         if (cartCount > 0) {
-            console.log('reset product')
             await resetApp.click(); 
-            console.log('Reset thành công');
             const newCartCountText = await cart.textContent();
             const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
             await expect(newCartCount).toBe(0) 
-            console.log('Giỏ hàng đã được cập nhật');
         } else {
-            console.log('add product')
             await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
             await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-            await resetApp.click(); 
-            console.log('Reset thành công');
+            await resetApp.click();
             const newCartCountText = await cart.textContent();
             const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
             await expect(newCartCount).toBe(0)
-            console.log('Giỏ hàng đã xóa');
         }
     });
     
@@ -79,7 +72,6 @@ test.describe('home', () => {
         await expect(logoutURL).toBe('https://www.saucedemo.com/')
         const logoutText = await page.title();
         await expect(logoutText).toBe('Swag Labs');
-        console.log('logout success')
 
     })
 
