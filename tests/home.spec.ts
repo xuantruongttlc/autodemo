@@ -14,6 +14,13 @@ test.describe('home', () => {
         await page.click('id=login-button');
     });
 
+    test('shoppingcart', async () => {
+        await page.click('[data-test="shopping-cart-link"]')
+        const aboutURL = await page.url();
+        await expect(aboutURL).toBe('https://www.saucedemo.com/cart.html')
+        await page.goBack();
+    })
+
  
     //tabbar about
 
@@ -22,8 +29,6 @@ test.describe('home', () => {
         await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
         await page.getByRole('button', { name: 'Open Menu' }).click();
         await page.click('id=about_sidebar_link');
-
-        await page.waitForLoadState('networkidle')
         const aboutURL = await page.url();
         await expect(aboutURL).toBe('https://saucelabs.com/')
         console.log('open abuot success')
