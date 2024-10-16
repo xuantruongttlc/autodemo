@@ -1,6 +1,6 @@
 import {test, expect } from '@playwright/test';
 
-test.describe('product_detail', () => {
+test.describe('product detail', () => {
     let page;
     let context
     test.beforeAll(async ({browser}) => {
@@ -12,12 +12,12 @@ test.describe('product_detail', () => {
         await page.click('id=login-button');
     })
     
-    test ('button_back_to_product', async () => {
+    test ('button back to product', async () => {
         await page.click('[data-test="item-4-title-link"]');
         await page.click('#back-to-products');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html')
     })
-    test ('check_click_button add/remote', async() => {
+    test ('check click button add/remote', async() => {
         await page.locator('[data-test="item-4-title-link"]').click()
         await page.waitForLoadState('networkidle')
         const buttonAddToCart =  await page.locator('[data-test="add-to-cart"]');

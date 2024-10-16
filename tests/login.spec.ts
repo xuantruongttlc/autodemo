@@ -37,7 +37,7 @@ test.describe('login', () => {
         await checkErrorMessage('Epic sadface: Username is required');
     });
 
-    // TH nhập space và username
+    // TH nhập space vào username
     test('Empty space username', async () => {
         await page.fill('#user-name', "          ");
         await page.fill('#password', "secret_sauce");

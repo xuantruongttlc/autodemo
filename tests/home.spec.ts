@@ -1,4 +1,5 @@
 import { test, expect } from '@playwright/test';
+import { waitForDebugger } from 'inspector';
 
 test.describe('home', () => {
     let page;
@@ -14,14 +15,33 @@ test.describe('home', () => {
     });
 
     test ('sort', async () => {
-        await page.locator('[data-test="product-sort-container"]').selectOption('za');
-        console.log('sort za')
-        await page.locator('[data-test="product-sort-container"]').selectOption('lohi');
-        console.log('sort lohi')
-        await page.locator('[data-test="product-sort-container"]').selectOption('hilo');
-        console.log('sort hilo')
-        await page.locator('[data-test="product-sort-container"]').selectOption('az');
-        console.log('sort az')
+        const sortOtion = ['za','lohi', 'hilo','az'];
+        for (const option of sortOtion){
+            await page.locator('[data-test="product-sort-container"]').selectOption(option);
+            console.log('sorted by:' ,option);
+
+            const products = await page.locator('.inventory_item_name').allTextContents();
+            const sortedProducts = [...products];
+            if(option === 'az'){
+                sortedProducts.sort();
+                console.log(products);
+            }
+            else if(option === 'za'){
+                sortedProducts.sort().reverse();
+                console.log(products);
+            }
+            else if(option === 'lohi'){
+                const prices = await page.locator('.inventory_item_price').allTextContents()
+                sortedProducts.sort((a, b) => parseFloat(prices[products.indexOf(a)]) - parseFloat(prices[products.indexOf(b)]));
+                console.log(products);
+            }
+            else if(option == 'hilo'){
+                const prices = await page.locator('.inventory_item_price').allTextContents()
+                sortedProducts.sort((a, b) => parseFloat(prices[products.indexOf(b)]) - parseFloat(prices[products.indexOf(a)]));
+                console.log(products);
+            }
+
+        }
     })
 
     test('shoppingcart', async () => {
@@ -45,7 +65,7 @@ test.describe('home', () => {
 
 
     //reset app state
-    test ('reset_app_state', async () =>{
+    test ('reset app state', async () =>{
         await page.getByRole('button', { name: 'Open Menu' }).click();
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
         const cart = await page.locator('[data-test="shopping-cart-link"]');  
