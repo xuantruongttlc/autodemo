@@ -1,5 +1,4 @@
 import {test, expect } from '@playwright/test';
-import exp from 'constants';
 
 test.describe('product_detail', () => {
     let page;
@@ -14,15 +13,14 @@ test.describe('product_detail', () => {
     })
     
     test ('button_back_to_product', async () => {
-        await page.click(await page.locator('[data-test="item-4-title-link"]').click());
+        await page.click('[data-test="item-4-title-link"]');
         await page.click('#back-to-products');
-        const homeURL = await page.url();
-        await expect(homeURL).toBe('https://www.saucedemo.com/inventory.html')
+        await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html')
     })
-    test ('check click button Add to cart', async() => {
+    test ('check_click_button', async() => {
         await page.locator('[data-test="item-4-title-link"]').click()
         await page.waitForLoadState('networkidle')
-        const buttonAddToCart =   await page.locator('[data-test="add-to-cart"]');
+        const buttonAddToCart =  await page.locator('[data-test="add-to-cart"]');
         const iconCart =  await page.locator('[data-test="shopping-cart-link"]');
         
         await expect(buttonAddToCart).toHaveText('Add to cart');
@@ -42,6 +40,10 @@ test.describe('product_detail', () => {
         await expect(iconCart).toHaveText('1');
         const iconCartCount1 = await iconCart.textContent();
         console.log(iconCartCount1);
+        await page.goto('https://www.saucedemo.com/cart.html');
+        const item = await page.locator('[data-test="item-4-title-link"]')
+        await expect(item).toBeVisible();
+        await page.goBack();
 
         await buttonRemove.click();
 
@@ -49,6 +51,10 @@ test.describe('product_detail', () => {
 
         await expect(buttonAddToCart).toHaveText('Add to cart');
         await expect(iconCart).toBeVisible();
+        await page.goto('https://www.saucedemo.com/cart.html');
+        const item2 = await page.locator('[data-test="item-4-title-link"]')
+        await expect(item2).not.toBeVisible();
+        await page.goBack();
     })
     test.afterAll(async () => {
         if (page) {

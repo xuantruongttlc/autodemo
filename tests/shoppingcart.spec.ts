@@ -1,5 +1,4 @@
-import { test, expect } from '@playwright/test';
-import { execPath } from 'process';
+import { test, expect } from '@playwright/test'
 
 test.describe('shopping_cart', () => {
     let page;
@@ -11,7 +10,14 @@ test.describe('shopping_cart', () => {
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
+        await page.click('[data-test="add-to-cart-sauce-labs-backpack"]');
 
+    })
+    test('check_button_shopping_cart', async () => {
+        await page.click('[data-test="shopping-cart-link"]')
+        const buttonCart =  await page.locator('[data-test="shopping-cart-link"]');
+        await buttonCart.click();
+        await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
     })
     test ('buttonContinue', async ()=>{
         await page.click('[data-test="shopping-cart-link"]')
@@ -27,12 +33,20 @@ test.describe('shopping_cart', () => {
         const checkoutURL = await page.url();
         await expect(checkoutURL).toBe('https://www.saucedemo.com/checkout-step-one.html')
         await page.waitForLoadState('networkidle')
-        page.goBack();
+        await page.goBack();
     })
 
-    // test('remote product', async () => {
-    //     console button = await page.locator
-    // })
+    test('remote product', async () => {
+        const buttoRemote = await page.locator('[data-test="remove-sauce-labs-backpack"]');
+        const iconCart =  await page.locator('[data-test="shopping-cart-link"]');
+        
+
+        await iconCart.click();
+        await page.waitForLoadState('networkidle') 
+        await buttoRemote.click();
+        await expect(buttoRemote).not.toBeVisible();
+
+    })
 
 
 

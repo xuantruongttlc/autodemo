@@ -99,8 +99,7 @@ test.describe('login', () => {
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
 
-        const homeURL = await page.url();
-        await expect(homeURL).toBe('https://www.saucedemo.com/inventory.html');
+        await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
 
         const homeTitle = await page.title();
         await expect(homeTitle).toBe('Swag Labs');
