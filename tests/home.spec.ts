@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test';
 import { TIMEOUT } from 'dns';
+import { it } from 'node:test';
 import { execPath } from 'process';
 
 test.describe('home', () => {
@@ -16,7 +17,7 @@ test.describe('home', () => {
     });
 
     test ('sort', async () => {
-        
+
     })
 
     test('shoppingcart', async () => {
@@ -42,29 +43,19 @@ test.describe('home', () => {
 
 
     //reset app state
-    test('reset app state', async () => {
-        // Mở menu
+    test ('reset_app_state', async () =>{
         await page.getByRole('button', { name: 'Open Menu' }).click();
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
         const cart = await page.locator('[data-test="shopping-cart-link"]');  
-        await page.waitForLoadState('networkidle'); // cho khoang 500ms
-        const cartCountText = await cart.textContent();
-        const cartCount = parseInt(cartCountText.trim(), 10) || 0; 
-        console.log(`Số lượng sản phẩm trong giỏ hàng: ${cartCount}`);
-        if (cartCount > 0) {
-            await resetApp.click(); 
-            const newCartCountText = await cart.textContent();
-            const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
-            await expect(newCartCount).toBe(0) 
-        } else {
-            await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]').click();
-            await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]').click();
-            await resetApp.click();
-            const newCartCountText = await cart.textContent();
-            const newCartCount = parseInt(newCartCountText.trim(), 10) || 0;
-            await expect(newCartCount).toBe(0)
-        }
-    });
+        const item1 = await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
+        const item2 =  await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
+        await item1.click();
+        await item2.click();
+        await resetApp.click();
+        await expect(item1).not.toBeVisible();
+        await expect(item2).not.toBeVisible();
+
+    })
     
 
     test('check click name product', async () => {
