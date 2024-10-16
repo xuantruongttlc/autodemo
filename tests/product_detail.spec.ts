@@ -17,7 +17,7 @@ test.describe('product_detail', () => {
         await page.click('#back-to-products');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html')
     })
-    test ('check_click_button', async() => {
+    test ('check_click_button add/remote', async() => {
         await page.locator('[data-test="item-4-title-link"]').click()
         await page.waitForLoadState('networkidle')
         const buttonAddToCart =  await page.locator('[data-test="add-to-cart"]');
