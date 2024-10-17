@@ -35,12 +35,6 @@ test.describe('shopping_cart', () => {
         await page.waitForLoadState('networkidle')
         await page.goBack();
     })
-
-   
-
-
-
-    
 })
 test.describe('item product', ()  => {
 
