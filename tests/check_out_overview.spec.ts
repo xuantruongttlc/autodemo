@@ -39,10 +39,6 @@ test.describe('check_out_Overview',  () => {
         await page.goBack();
     })
 
-
-
-
-
     test.afterAll(async () => {
         if (page) {
             await page.close();  

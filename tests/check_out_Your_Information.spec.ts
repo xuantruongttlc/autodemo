@@ -1,4 +1,5 @@
 import {test, expect} from '@playwright/test'
+import { text } from 'stream/consumers';
 
 test.describe('check_out_Your_Information',  () => {
     let page;
@@ -32,13 +33,13 @@ test.describe('check_out_Your_Information',  () => {
         page.goBack();
     })
 
-    // TH bỏ trống firtname và lastname và zipcode
+    // Empty firtname, lastname and zipcode
     test('Empty firtname, lastname, postalcode', async () => {
         await page.locator('[data-test="continue"]').click();
         await checkErrorMessage('Error: First Name is required');
     });
 
-   // TH bỏ trống firtname
+   // Empty firtname
     test('Empty firtname', async () => {
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -46,7 +47,7 @@ test.describe('check_out_Your_Information',  () => {
         await checkErrorMessage('Error: First Name is required');
     });
 
-    // TH nhập space vào firtname
+    // Empty space in firtname
     test('Empty space firtname', async () => {
         await page.fill('[data-test="firstName"]', "          ");
         await page.fill('[data-test="lastName"]', "Truong");
@@ -55,7 +56,7 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    // Nhập firtname có khoảng trắng
+    // Enter a space between firtname
     test('Enter a space between firtname', async () => {
         await page.fill('[data-test="firstName"]', "standard_      user");
         await page.fill('[data-test="lastName"]', "Truong");
@@ -64,7 +65,7 @@ test.describe('check_out_Your_Information',  () => {
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
         await page.goBack();
     });
-    //Nhập ký tự đặc biệt firtname
+    //Enter special characters firtname
     test('enter special characters firtname', async () => {
         await page.fill('[data-test="firstName"]', "!@#@!$@$@!$$$!@$#%$^%&*^(*&^%#@!");
         await page.fill('[data-test="lastName"]', "Truong");
@@ -75,8 +76,8 @@ test.describe('check_out_Your_Information',  () => {
     });
 
 
-    //Nhập ký tự chữ thường firtname
-    test('enter lowercase input firtname', async () => {
+    //Enter lowercase input firtname
+    test('Enter lowercase input firtname', async () => {
         await page.fill('[data-test="firstName"]', "dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -85,8 +86,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự chữ in hoa vao firtname
-    test('enter uppercase letters', async () => {
+    //Enter uppercase letters in firtname
+    test('Enter uppercase in firtname', async () => {
         await page.fill('[data-test="firstName"]', "DANG");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -95,8 +96,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự số vao firtname
-    test('enter number', async () => {
+    //Enter number in firtname
+    test('Enter number in firtname', async () => {
         await page.fill('[data-test="firstName"]', "1234566");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -107,7 +108,7 @@ test.describe('check_out_Your_Information',  () => {
     
 
     // Nhập chữ, số, ký tự đặc biệt vao firtname
-    test('enter firtname', async () => {
+    test('Enter number, text, special characters in firtname', async () => {
         await page.fill('[data-test="firstName"]', "Dang123#");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -119,7 +120,7 @@ test.describe('check_out_Your_Information',  () => {
 
 
     //lastname
-    // TH bỏ trống lastname
+    // Empty lastname
     test('Empty lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -127,8 +128,8 @@ test.describe('check_out_Your_Information',  () => {
         await checkErrorMessage('Error: Last Name is required');
     });
 
-    // TH nhập space vào firtname
-    test('Empty space lastname', async () => {
+    // Empty space in lastname
+    test('Empty space in lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "            ");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -136,8 +137,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    // Nhập lastname có khoảng trắng
-    test('Enter a space between lasrname', async () => {
+    // Enter a space between in lastname
+    test('Enter a space between lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truo         ng");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -145,8 +146,8 @@ test.describe('check_out_Your_Information',  () => {
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
         await page.goBack();
     });
-    //Nhập ký tự đặc biệt lastname
-    test('enter special characters lastname', async () => {
+    //Enter special characters in lastname
+    test('enter special characters in lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "!@#@!$@$@!$$$!@$#%$^%&*^(*&^%#");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -156,8 +157,8 @@ test.describe('check_out_Your_Information',  () => {
     });
 
 
-    //Nhập ký tự chữ thường lastname
-    test('enter lowercase input lastname', async () => {
+    //Enter lowercase input in lastname
+    test('enter lowercase input in lastname', async () => {
         await page.fill('[data-test="firstName"]', "DANG");
         await page.fill('[data-test="lastName"]', "truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -166,8 +167,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự chữ in hoa vao lastname
-    test('enter uppercase letters lastname', async () => {
+    //Enter uppercae letters in lastname
+    test('Enter uppercase letters in lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "TRUONG");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -176,8 +177,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự số vao lastname
-    test('enter number lastname', async () => {
+    //Enter number in lastname
+    test('Enter number in lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "123444");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -187,8 +188,8 @@ test.describe('check_out_Your_Information',  () => {
     });
     
 
-    // Nhập chữ, số, ký tự đặc biệt vao lastname
-    test('enter firtname lastname', async () => {
+    // Enter text, number special character in lastname
+    test('Enter text, number, special character in lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong123#");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -199,16 +200,16 @@ test.describe('check_out_Your_Information',  () => {
    
 
     //postal-code
-    // TH bỏ trống lastname
-    test('Empty postal-code', async () => {
+    // Empty in postal-code
+    test('Empty in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Dang");
         await page.locator('[data-test="continue"]').click();
         await checkErrorMessage('Error: Postal Code is required');
     });
 
-    // TH nhập space vào firtname
-    test('Empty space postal-code', async () => {
+    // Enter space in postal-code
+    test('Enter space in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "        ");
@@ -216,8 +217,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    // Nhập lastname có khoảng trắng
-    test('Enter a space between postal-code', async () => {
+    // Enter a space between in postal-code
+    test('Enter a space between in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08        324");
@@ -225,8 +226,8 @@ test.describe('check_out_Your_Information',  () => {
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
         await page.goBack();
     });
-    //Nhập ký tự đặc biệt lastname
-    test('enter special characters postal-code', async () => {
+    //Enter special characters postal-code
+    test('Enter special characters postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "@#@!$@$@!$$$!@$#%$^%&*^(*&^%#");
@@ -236,8 +237,8 @@ test.describe('check_out_Your_Information',  () => {
     });
 
 
-    //Nhập ký tự chữ thường lastname
-    test('enter lowercase input postal-code', async () => {
+    //Enter lowercase input in postal-code
+    test('Enter lowercase input in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "DANG");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "trndsfdsf");
@@ -246,8 +247,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự chữ in hoa vao lastname
-    test('enter uppercase letters postal-code', async () => {
+    //Enter uppercase letters in postal-code
+    test('Enter uppercase letters in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "HHAHAHA");
@@ -256,8 +257,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Nhập ký tự số vao lastname
-    test('enter number postal-code', async () => {
+    //enter number in postal-code 
+    test('Enter number in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "123444");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -267,8 +268,8 @@ test.describe('check_out_Your_Information',  () => {
     });
     
 
-    // Nhập chữ, số, ký tự đặc biệt vao lastname
-    test('enter firtname postal-code', async () => {
+    // Nhập chữ, số, ký tự đặc biệt vao postal-code
+    test('Enter text, number, special character in postal-code', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong123#");
         await page.fill('[data-test="postalCode"]', "Truong08324!@@!›");
@@ -277,19 +278,14 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //điền thông tin hợp lệ 
-    test('enter data valid', async () => {
+    //Enter data valid 
+    test('Enter data valid', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "123456");
         await page.locator('[data-test="continue"]').click();
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
     });
-
-
-
-
-
 
     test.afterAll(async () => {
         if (page) {
@@ -299,5 +295,4 @@ test.describe('check_out_Your_Information',  () => {
             await context.close();  
         }
     });
-    
 })
