@@ -130,6 +130,73 @@ test.describe('home', () => {
             await page.goBack();
         })
 
+        test('footer_twitter', async () =>{
+            await page.goto('https://www.saucedemo.com/');
+            await page.fill('#user-name', "standard_user");
+            await page.fill('#password', "secret_sauce");
+            await page.click('id=login-button');
+
+            const [newPage] = await Promise.all([
+                context.waitForEvent('page'), // Chờ tab mới
+                page.click('[data-test="social-twitter"]') // Nhấp vào icon Twitter
+            ]);
+    
+            // Chờ trang trong tab mới tải hoàn tất
+            await newPage.waitForLoadState('domcontentloaded');
+    
+            // Kiểm tra URL của tab mới
+            await expect(newPage).toHaveURL('https://x.com/saucelabs');
+    
+            // Đóng tab mới
+            await newPage.close();
+            
+         })
+        test('footer_facebook', async () =>{
+                await page.goto('https://www.saucedemo.com/');
+                await page.fill('#user-name', "standard_user");
+                await page.fill('#password', "secret_sauce");
+                await page.click('id=login-button');
+    
+                const [newPage] = await Promise.all([
+                    context.waitForEvent('page'), // Chờ tab mới
+                    page.click('[data-test="social-facebook"]') // Nhấp vào icon Twitter
+                ]);
+        
+                // Chờ trang trong tab mới tải hoàn tất
+                await newPage.waitForLoadState('domcontentloaded');
+        
+                // Kiểm tra URL của tab mới
+                await expect(newPage).toHaveURL('https://www.facebook.com/saucelabs');
+        
+                // Đóng tab mới
+                await newPage.close();
+                
+             })
+        test('footer_linkedin', async () =>{
+                await page.goto('https://www.saucedemo.com/');
+                await page.fill('#user-name', "standard_user");
+                await page.fill('#password', "secret_sauce");
+                await page.click('id=login-button');
+    
+                const [newPage] = await Promise.all([
+                    context.waitForEvent('page'), // Chờ tab mới
+                    page.click('[data-test="social-linkedin"]') // Nhấp vào icon Twitter
+                ]);
+        
+                // Chờ trang trong tab mới tải hoàn tất
+                await newPage.waitForLoadState('domcontentloaded');
+        
+                // Kiểm tra URL của tab mới
+                await expect(newPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
+        
+                // Đóng tab mới
+                await newPage.close();
+                
+             
+        })
+
+        
+
 
     //check logout
     test('logout', async () => {
