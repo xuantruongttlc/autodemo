@@ -1,8 +1,5 @@
 import {test, expect} from '@playwright/test'
-import { text } from 'stream/consumers';
-
-test.describe('check_out_Your_Information',  () => {
-    let page;
+   let page;
     let context;
     test.beforeAll( async ({browser}) => {
         context = await browser.newContext();
@@ -27,6 +24,10 @@ test.describe('check_out_Your_Information',  () => {
         await closeButton.click();
         await expect(errorLocator).not.toBeVisible({ timeout: 5000 });
     };
+
+
+test.describe('check_out_Your_Information',  () => {
+ 
     test ('Check button cancel' , async () =>{
         await page.click('[data-test="cancel"]')
         await expect(page).toHaveURL('https://www.saucedemo.com/cart.html')
@@ -37,9 +38,20 @@ test.describe('check_out_Your_Information',  () => {
     test('Empty firtname, lastname, postalcode', async () => {
         await page.locator('[data-test="continue"]').click();
         await checkErrorMessage('Error: First Name is required');
-    });
+    });    
+    //Enter data valid 
+    test('Enter data valid', async () => {
+        await page.fill('[data-test="firstName"]', "Dang");
+        await page.fill('[data-test="lastName"]', "Truong");
+        await page.fill('[data-test="postalCode"]', "123456");
+        await page.locator('[data-test="continue"]').click();
+        await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
+        page.goBack();
+    });   
+})
 
-   // Empty firtname
+test.describe('check firtname', () => {
+    // Empty firtname
     test('Empty firtname', async () => {
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "08324");
@@ -116,10 +128,10 @@ test.describe('check_out_Your_Information',  () => {
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
         await page.goBack();
     });
-   
+})
 
-
-    //lastname
+test.describe('check lastname', () => {
+     //lastname
     // Empty lastname
     test('Empty lastname', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
@@ -197,8 +209,9 @@ test.describe('check_out_Your_Information',  () => {
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
         await page.goBack();
     });
-   
+})
 
+test.describe('check postalcode', () => {
     //postal-code
     // Empty in postal-code
     test('Empty in postal-code', async () => {
@@ -278,16 +291,8 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
-    //Enter data valid 
-    test('Enter data valid', async () => {
-        await page.fill('[data-test="firstName"]', "Dang");
-        await page.fill('[data-test="lastName"]', "Truong");
-        await page.fill('[data-test="postalCode"]', "123456");
-        await page.locator('[data-test="continue"]').click();
-        await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
-    });
-
-    test.afterAll(async () => {
+})
+ test.afterAll(async () => {
         if (page) {
             await page.close();  
         }
@@ -295,4 +300,3 @@ test.describe('check_out_Your_Information',  () => {
             await context.close();  
         }
     });
-})

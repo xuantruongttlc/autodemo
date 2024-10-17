@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test'
-
-test.describe('shopping_cart', () => {
-    let page;
+let page;
     let context;
     test.beforeAll( async ({browser}) => {
         context = await browser.newContext();
@@ -13,7 +11,9 @@ test.describe('shopping_cart', () => {
         await page.click('[data-test="add-to-cart-sauce-labs-backpack"]');
 
     })
-    test('check_button_shopping_cart', async () => {
+
+test.describe('shopping_cart', () => {
+        test('check_button_shopping_cart', async () => {
         await page.click('[data-test="shopping-cart-link"]')
         const buttonCart =  await page.locator('[data-test="shopping-cart-link"]');
         await buttonCart.click();
@@ -36,7 +36,21 @@ test.describe('shopping_cart', () => {
         await page.goBack();
     })
 
-    test('remote product', async () => {
+   
+
+
+
+    
+})
+test.describe('item product', ()  => {
+
+    test('check click name product', async () => {
+        await page.click('[data-test="item-4-title-link"]');
+        await expect(page).toHaveURL('https://www.saucedemo.com/inventory-item.html?id=4')
+        await page.goBack();
+    })
+
+     test('remote product', async () => {
         const buttoRemote = await page.locator('[data-test="remove-sauce-labs-backpack"]');
         const iconCart =  await page.locator('[data-test="shopping-cart-link"]');
         
@@ -47,10 +61,9 @@ test.describe('shopping_cart', () => {
         await expect(buttoRemote).not.toBeVisible();
 
     })
+})
 
-
-
-    test.afterAll(async () => {
+test.afterAll(async () => {
         if (page) {
             await page.close(); 
         }
@@ -58,4 +71,3 @@ test.describe('shopping_cart', () => {
             await context.close();
         }
     });
-})

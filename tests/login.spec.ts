@@ -1,7 +1,5 @@
 import { test, expect } from '@playwright/test';
-
-test.describe('login', () => {
-    let page;
+let page;
 
     // Khởi tạo trang và điều hướng đến trang web trước khi bắt đầu các test
     test.beforeAll(async ({ browser }) => {
@@ -24,12 +22,29 @@ test.describe('login', () => {
         await expect(errorLocator).not.toBeVisible({ timeout: 5000 });
     };
 
-    // TH bỏ trống username và password
-    test('Empty username and password', async () => {
-        await page.click('id=login-button');
-        await checkErrorMessage('Epic sadface: Username is required');
+
+test.describe('login', () =>{
+        // TH bỏ trống username và password
+        test('Empty username and password', async () => {
+            await page.click('id=login-button');
+            await checkErrorMessage('Epic sadface: Username is required');
+        });
+    
+        // Login Success
+        test('login success', async () => {
+            await page.fill('#user-name', "standard_user");
+            await page.fill('#password', "secret_sauce");
+            await page.click('id=login-button');
+    
+            await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
+    
+            const homeTitle = await page.title();
+            await expect(homeTitle).toBe('Swag Labs');
+            page.goBack();
+        });
     });
 
+test.describe('check username', () => {
     // TH bỏ trống username
     test('Empty username', async () => {
         await page.fill('#password', "secret_sauce");
@@ -60,8 +75,9 @@ test.describe('login', () => {
         await page.click('id=login-button');
         await checkErrorMessage('Epic sadface: Username and password do not match any user in this service');
     });
+})
 
-    // Không nhập password
+test.describe('check password', () => {
     test('Empty password', async () => {
         await page.fill('#password', '');
         await page.fill('#user-name', "standard_user");
@@ -92,21 +108,8 @@ test.describe('login', () => {
         await page.click('id=login-button');
         await checkErrorMessage('Epic sadface: Username and password do not match any user in this service');
     });
+})
 
-    // Login Success
-    test('login success', async () => {
-        await page.fill('#user-name', "standard_user");
-        await page.fill('#password', "secret_sauce");
-        await page.click('id=login-button');
-
-        await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-
-        const homeTitle = await page.title();
-        await expect(homeTitle).toBe('Swag Labs');
-    });
-
-    // Đóng trang sau khi tất cả các test đã hoàn tất
-    test.afterAll(async () => {
-        await page.close();
-    });
+test.afterAll(async () => {
+    await page.close();
 });

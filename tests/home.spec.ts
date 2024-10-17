@@ -1,8 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { waitForDebugger } from 'inspector';
-
-test.describe('home', () => {
-    let page;
+let page;
     let context; 
 
     test.beforeAll(async ({ browser }) => {
@@ -13,6 +10,9 @@ test.describe('home', () => {
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
     });
+
+test.describe('home', () => {
+    
 
     test ('sort', async () => {
         const sortOtion = ['za','lohi', 'hilo','az'];
@@ -50,44 +50,9 @@ test.describe('home', () => {
         await expect(aboutURL).toBe('https://www.saucedemo.com/cart.html')
         await page.goBack();
     })
+});
 
- 
-    //tabbar about
-
-    test('about', async ()=> {
-        await page.getByRole('button', { name: 'Open Menu' }).click();
-        await page.click('id=about_sidebar_link');
-        const aboutURL = await page.url();
-        await expect(aboutURL).toBe('https://saucelabs.com/')
-        console.log('open abuot success')
-        await page.goBack();
-    })
-
-
-    //reset app state
-    test ('reset app state', async () =>{
-        await page.getByRole('button', { name: 'Open Menu' }).click();
-        const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
-        const cart = await page.locator('[data-test="shopping-cart-link"]');  
-        const item1 = await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
-        const item2 =  await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
-        await item1.click();
-        await item2.click();
-        const cartText1 = await cart.textContent();
-        console.log(' so luong don hang la: ', cartText1)
-        await resetApp.click();
-
-        const cartText2 = await cart.textContent();
-        console.log(' so luong don hang la: ', cartText2)
-        await expect(cart).toHaveText('');
-        await page.goto('https://www.saucedemo.com/cart.html');
-        await expect(item1).not.toBeVisible();
-        await expect(item2).not.toBeVisible();
-        await page.goBack();
-
-    })
-    
-
+test.describe('itemproduct', () => {
     test('check click name product', async () => {
         await page.click('[data-test="item-4-title-link"]');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory-item.html?id=4')
@@ -129,76 +94,93 @@ test.describe('home', () => {
             await expect(item2).not.toBeVisible();
             await page.goBack();
         })
+})
+test.describe('footer', () => {
+    test('footer_twitter', async () =>{
+        const [newPage] = await Promise.all([
+            context.waitForEvent('page'), // Chờ tab mới
+            page.click('[data-test="social-twitter"]') // Nhấp vào icon Twitter
+        ]);
 
-        test('footer_twitter', async () =>{
-            await page.goto('https://www.saucedemo.com/');
-            await page.fill('#user-name', "standard_user");
-            await page.fill('#password', "secret_sauce");
-            await page.click('id=login-button');
+        // Chờ trang trong tab mới tải hoàn tất
+        await newPage.waitForLoadState('domcontentloaded');
 
+        // Kiểm tra URL của tab mới
+        await expect(newPage).toHaveURL('https://x.com/saucelabs');
+
+        // Đóng tab mới
+        await newPage.close();
+        
+     })
+    test('footer_facebook', async () =>{
             const [newPage] = await Promise.all([
                 context.waitForEvent('page'), // Chờ tab mới
-                page.click('[data-test="social-twitter"]') // Nhấp vào icon Twitter
+                page.click('[data-test="social-facebook"]') // Nhấp vào icon Twitter
             ]);
     
             // Chờ trang trong tab mới tải hoàn tất
             await newPage.waitForLoadState('domcontentloaded');
     
             // Kiểm tra URL của tab mới
-            await expect(newPage).toHaveURL('https://x.com/saucelabs');
+            await expect(newPage).toHaveURL('https://www.facebook.com/saucelabs');
     
             // Đóng tab mới
             await newPage.close();
             
          })
-        test('footer_facebook', async () =>{
-                await page.goto('https://www.saucedemo.com/');
-                await page.fill('#user-name', "standard_user");
-                await page.fill('#password', "secret_sauce");
-                await page.click('id=login-button');
+    test('footer_linkedin', async () =>{
+            const [newPage] = await Promise.all([
+                context.waitForEvent('page'), // Chờ tab mới
+                page.click('[data-test="social-linkedin"]') // Nhấp vào icon Twitter
+            ]);
     
-                const [newPage] = await Promise.all([
-                    context.waitForEvent('page'), // Chờ tab mới
-                    page.click('[data-test="social-facebook"]') // Nhấp vào icon Twitter
-                ]);
-        
-                // Chờ trang trong tab mới tải hoàn tất
-                await newPage.waitForLoadState('domcontentloaded');
-        
-                // Kiểm tra URL của tab mới
-                await expect(newPage).toHaveURL('https://www.facebook.com/saucelabs');
-        
-                // Đóng tab mới
-                await newPage.close();
-                
-             })
-        test('footer_linkedin', async () =>{
-                await page.goto('https://www.saucedemo.com/');
-                await page.fill('#user-name', "standard_user");
-                await page.fill('#password', "secret_sauce");
-                await page.click('id=login-button');
+            // Chờ trang trong tab mới tải hoàn tất
+            await newPage.waitForLoadState('domcontentloaded');
     
-                const [newPage] = await Promise.all([
-                    context.waitForEvent('page'), // Chờ tab mới
-                    page.click('[data-test="social-linkedin"]') // Nhấp vào icon Twitter
-                ]);
-        
-                // Chờ trang trong tab mới tải hoàn tất
-                await newPage.waitForLoadState('domcontentloaded');
-        
-                // Kiểm tra URL của tab mới
-                await expect(newPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
-        
-                // Đóng tab mới
-                await newPage.close();
-                
-             
-        })
-
-        
+            // Kiểm tra URL của tab mới
+            await expect(newPage).toHaveURL('https://www.linkedin.com/company/sauce-labs/');
+    
+            // Đóng tab mới
+            await newPage.close();
+         
+    })
+    
+})
 
 
-    //check logout
+test.describe('tab bar', () => {
+
+    test('about', async ()=> {
+        await page.getByRole('button', { name: 'Open Menu' }).click();
+        await page.click('id=about_sidebar_link');
+        const aboutURL = await page.url();
+        await expect(aboutURL).toBe('https://saucelabs.com/')
+        console.log('open abuot success')
+        await page.goBack();
+    })
+
+    test ('reset app state', async () =>{
+        await page.getByRole('button', { name: 'Open Menu' }).click();
+        const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
+        const cart = await page.locator('[data-test="shopping-cart-link"]');  
+        const item1 = await page.locator('[data-test="add-to-cart-sauce-labs-backpack"]');
+        const item2 =  await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
+        await item1.click();
+        await item2.click();
+        const cartText1 = await cart.textContent();
+        console.log(' so luong don hang la: ', cartText1)
+        await resetApp.click();
+
+        const cartText2 = await cart.textContent();
+        console.log(' so luong don hang la: ', cartText2)
+        await expect(cart).toHaveText('');
+        await page.goto('https://www.saucedemo.com/cart.html');
+        await expect(item1).not.toBeVisible();
+        await expect(item2).not.toBeVisible();
+        await page.goBack();
+
+    })
+
     test('logout', async () => {
         await page.goto('https://www.saucedemo.com/');
         await page.fill('#user-name', "standard_user");
@@ -214,8 +196,8 @@ test.describe('home', () => {
 
     })
 
-
-    test.afterAll(async () => {
+})
+test.afterAll(async () => {
         if (page) {
             await page.close(); 
         }
@@ -223,4 +205,3 @@ test.describe('home', () => {
             await context.close();  
         }
     });
-});
