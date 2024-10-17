@@ -277,6 +277,15 @@ test.describe('check_out_Your_Information',  () => {
         await page.goBack();
     });
 
+    //điền thông tin hợp lệ 
+    test('enter data valid', async () => {
+        await page.fill('[data-test="firstName"]', "Dang");
+        await page.fill('[data-test="lastName"]', "Truong");
+        await page.fill('[data-test="postalCode"]', "123456");
+        await page.locator('[data-test="continue"]').click();
+        await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html')
+    });
+
 
 
 

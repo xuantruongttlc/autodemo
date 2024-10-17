@@ -150,10 +150,10 @@ test.describe('home', () => {
 
     test.afterAll(async () => {
         if (page) {
-            await page.close();  // Đóng trang trước
+            await page.close(); 
         }
         if (context) {
-            await context.close();  // Sau đó đóng ngữ cảnh
+            await context.close();  
         }
     });
 });
