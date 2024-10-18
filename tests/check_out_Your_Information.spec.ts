@@ -20,6 +20,7 @@ import {test, expect} from '@playwright/test'
         const closeButton = await page.locator('[data-test="error-button"]');
 
         await closeButton.click();
+        await expect(closeButton).not.toBeVisible();
     };
 
 

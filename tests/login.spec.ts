@@ -17,6 +17,7 @@ let page;
         await expect(errorMessage.trim()).toBe(expectedMessage);
         const closeButton = await errorLocator.locator('button');
         await closeButton.click();
+        await expect(closeButton).not.toBeVisible();
     };
 
 
@@ -124,7 +125,6 @@ test.describe('Check list accounts', () => {
 
         
             await page.click('id=login-button');  
-            await page.waitForLoadState('networkidle')
         
             const url = await page.url();
             if (url === 'https://www.saucedemo.com/inventory.html') {
@@ -136,7 +136,6 @@ test.describe('Check list accounts', () => {
             }
             
             page.goBack();
-            await page.waitForLoadState('networkidle')
     }
     });
 
@@ -145,6 +144,5 @@ test.describe('Check list accounts', () => {
 
 
 test.afterAll(async () => {
-    page.goBack()
     await page.close();
 });
