@@ -146,3 +146,4 @@ test.describe('Check list accounts', () => {
 test.afterAll(async () => {
     await page.close();
 });
+

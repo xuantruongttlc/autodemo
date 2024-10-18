@@ -64,19 +64,13 @@ test.describe('check itemproduct', () => {
             const iconCart =  await page.locator('[data-test="shopping-cart-link"]');
             
             await expect(buttonAddToCart).toHaveText('Add to cart');
-            const buttonText = await buttonAddToCart.textContent();
-            console.log(buttonText)
             await expect(iconCart).toBeVisible();
             
             await buttonAddToCart.click();
     
             const buttonRemove = page.locator('[data-test="remove-sauce-labs-backpack"]');
-            const buttonTextMemote = await buttonRemove.textContent();
-            console.log(buttonTextMemote) 
             await expect(buttonRemove).toHaveText('Remove');
             await expect(iconCart).toHaveText('1');
-            const iconCartCount1 = await iconCart.textContent();
-            console.log(iconCartCount1);
 
             await page.goto('https://www.saucedemo.com/cart.html');
             const item = await page.locator('[data-test="item-4-title-link"]')
@@ -90,8 +84,7 @@ test.describe('check itemproduct', () => {
             await expect(buttonAddToCart).toHaveText('Add to cart');
             await expect(iconCart).toBeVisible();
             await page.goto('https://www.saucedemo.com/cart.html');
-            const item2 = await page.locator('[data-test="item-4-title-link"]')
-            await expect(item2).not.toBeVisible();
+            await expect(item).not.toBeVisible();
             await page.goBack();
         })
 })
@@ -155,7 +148,6 @@ test.describe('Check tab bar', () => {
         await page.click('id=about_sidebar_link');
         const aboutURL = await page.url();
         await expect(aboutURL).toBe('https://saucelabs.com/')
-        console.log('open abuot success')
         await page.goBack();
     })
 
@@ -167,12 +159,7 @@ test.describe('Check tab bar', () => {
         const item2 =  await page.locator('[data-test="add-to-cart-sauce-labs-bike-light"]');
         await item1.click();
         await item2.click();
-        const cartText1 = await cart.textContent();
-        console.log(' so luong don hang la: ', cartText1)
         await resetApp.click();
-
-        const cartText2 = await cart.textContent();
-        console.log(' so luong don hang la: ', cartText2)
         await expect(cart).toHaveText('');
         await page.goto('https://www.saucedemo.com/cart.html');
         await expect(item1).not.toBeVisible();
