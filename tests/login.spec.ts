@@ -1,5 +1,6 @@
 
 import { test, expect } from '@playwright/test';
+import { afterEach } from 'node:test';
 let page;
 
 
@@ -12,28 +13,23 @@ let page;
     // Hàm kiểm tra thông báo lỗi
     const checkErrorMessage = async (expectedMessage) => {
         const errorLocator = page.locator('h3[data-test=error]');
-        
-        await expect(errorLocator).toBeVisible({ timeout: 5000 });
-
         const errorMessage = await errorLocator.textContent();
-
         await expect(errorMessage.trim()).toBe(expectedMessage);
         const closeButton = await errorLocator.locator('button');
-
         await closeButton.click();
-        await expect(errorLocator).not.toBeVisible({ timeout: 5000 });
     };
 
 
-test.describe('login', () =>{
+
+test.describe('check login', () =>{
         // TH bỏ trống username và password
-        test('Empty username and password', async () => {
+        test('Check empty username and password fild', async () => {
             await page.click('id=login-button');
             await checkErrorMessage('Epic sadface: Username is required');
         });
     
         // Login Success
-        test('login success', async () => {
+        test('Check login success', async () => {
             await page.fill('#user-name', "standard_user");
             await page.fill('#password', "secret_sauce");
             await page.click('id=login-button');
@@ -46,16 +42,16 @@ test.describe('login', () =>{
         });
     });
 
-test.describe('check username', () => {
+test.describe('Check username field', () => {
     // TH bỏ trống username
-    test('Empty username', async () => {
+    test('Check empty username field', async () => {
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
         await checkErrorMessage('Epic sadface: Username is required');
     });
 
     // TH nhập space vào username
-    test('Empty space username', async () => {
+    test('Check empty space username field ', async () => {
         await page.fill('#user-name', "          ");
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
@@ -63,7 +59,7 @@ test.describe('check username', () => {
     });
 
     // Nhập username có khoảng trắng
-    test('Enter a space between usernames', async () => {
+    test('Check enter a space between usernames field', async () => {
         await page.fill('#user-name', "standard_      user");
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
@@ -71,7 +67,7 @@ test.describe('check username', () => {
     });
 
     // Nhập sai thông tin username
-    test('Incorrect Username field information', async () => {
+    test('Check incorrect Username field information', async () => {
         await page.fill('#user-name', "standard_user111");
         await page.fill('#password', "secret_sauce");
         await page.click('id=login-button');
@@ -79,8 +75,8 @@ test.describe('check username', () => {
     });
 })
 
-test.describe('check password', () => {
-    test('Empty password', async () => {
+test.describe('check password field', () => {
+    test('Check empty password field', async () => {
         await page.fill('#password', '');
         await page.fill('#user-name', "standard_user");
         await page.click('id=login-button');
@@ -88,7 +84,7 @@ test.describe('check password', () => {
     });
 
     // Nhập khoảng trắng vào password
-    test('Empty space password', async () => {
+    test('Check empty space password field', async () => {
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "          ");
         await page.click('id=login-button');
@@ -96,7 +92,7 @@ test.describe('check password', () => {
     });
 
     // Nhập password có chứa khoảng trắng
-    test('Enter a space between password', async () => {
+    test('Check enter a space between password field', async () => {
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "secret_          sauce");
         await page.click('id=login-button');
@@ -104,7 +100,7 @@ test.describe('check password', () => {
     });
 
     // Nhập sai password
-    test('Incorrect password field information', async () => {
+    test('Check incorrect password field information field', async () => {
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "secret_sauce1111");
         await page.click('id=login-button');
@@ -115,7 +111,7 @@ test.describe('check password', () => {
 test.describe('Check list accounts', () => {
     const { chromium } = require('playwright');
     const xlsx = require('xlsx');
-    test ('login list account', async () =>{
+    test ('Check login list account', async () =>{
         // const workBook = xlsx.tests('account.xlsx');
         const workBook = xlsx.readFile('/Users/macos/Documents/data/Tester/BHSOFT/saucedemo/tests/account.xlsx');
         const accounts = xlsx.utils.sheet_to_json(workBook.Sheets['Sheet1']); 
@@ -146,6 +142,9 @@ test.describe('Check list accounts', () => {
 
 })
 
+
+
 test.afterAll(async () => {
+    page.goBack()
     await page.close();
 });

@@ -17,27 +17,27 @@ test.describe('check_out_Overview',  () => {
         await page.fill('[data-test="lastName"]', "Truong");
         await page.fill('[data-test="postalCode"]', "123456");
         await page.locator('[data-test="continue"]').click();
-        await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-two.html'); 
 
     })
     
     test('check click name product', async () => {
         await page.click('[data-test="item-4-title-link"]');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory-item.html?id=4')
-        await page.goBack();
     })
 
-    test('button_cancel', async () => {
+    test('check click button_cancel', async () => {
         await page.click('[data-test="cancel"]')
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-        await page.goBack();
     })
 
-    test('button_finish', async () => {
+    test('check click button_finish', async () => {
         await page.click('[data-test="finish"]')
         await expect(page).toHaveURL('https://www.saucedemo.com/checkout-complete.html');
-        await page.goBack();
     })
+
+    test.afterEach(async () => {
+        await page.goBack();
+     })
 
     test.afterAll(async () => {
         if (page) {

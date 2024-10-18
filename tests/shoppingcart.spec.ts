@@ -12,14 +12,14 @@ let page;
 
     })
 
-test.describe('shopping_cart', () => {
-        test('check_button_shopping_cart', async () => {
+test.describe('Check icon shopping_cart', () => {
+        test('check click button shopping cart', async () => {
         await page.click('[data-test="shopping-cart-link"]')
         const buttonCart =  await page.locator('[data-test="shopping-cart-link"]');
         await buttonCart.click();
         await expect(page).toHaveURL('https://www.saucedemo.com/cart.html');
     })
-    test ('buttonContinue', async ()=>{
+    test ('Check click buttonContinue', async ()=>{
         await page.click('[data-test="shopping-cart-link"]')
         await page.click('[data-test="continue-shopping"]');
         const aboutURL = await page.url();
@@ -27,7 +27,7 @@ test.describe('shopping_cart', () => {
         await page.waitForLoadState('networkidle')
 
     })
-    test ('buttoncheckout', async ()=> {
+    test ('Check click buttoncheckout', async ()=> {
         await page.click('[data-test="shopping-cart-link"]')
         await page.click('[data-test="checkout"]');
         const checkoutURL = await page.url();
@@ -36,7 +36,7 @@ test.describe('shopping_cart', () => {
         await page.goBack();
     })
 })
-test.describe('item product', ()  => {
+test.describe('Check click item product', ()  => {
 
     test('check click name product', async () => {
         await page.click('[data-test="item-4-title-link"]');
@@ -44,7 +44,7 @@ test.describe('item product', ()  => {
         await page.goBack();
     })
 
-     test('remote product', async () => {
+     test('Check click button remote product', async () => {
         const buttoRemote = await page.locator('[data-test="remove-sauce-labs-backpack"]');
         const iconCart =  await page.locator('[data-test="shopping-cart-link"]');
         

@@ -14,7 +14,7 @@ let page;
 test.describe('home', () => {
     
 
-    test ('sort', async () => {
+    test ('check click combobox sort', async () => {
         const sortOtion = ['za','lohi', 'hilo','az'];
         for (const option of sortOtion){
             await page.locator('[data-test="product-sort-container"]').selectOption(option);
@@ -44,7 +44,7 @@ test.describe('home', () => {
         }
     })
 
-    test('shoppingcart', async () => {
+    test('check click icon shoppingcart', async () => {
         await page.click('[data-test="shopping-cart-link"]')
         const aboutURL = await page.url();
         await expect(aboutURL).toBe('https://www.saucedemo.com/cart.html')
@@ -52,7 +52,7 @@ test.describe('home', () => {
     })
 });
 
-test.describe('itemproduct', () => {
+test.describe('check itemproduct', () => {
     test('check click name product', async () => {
         await page.click('[data-test="item-4-title-link"]');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory-item.html?id=4')
@@ -95,8 +95,8 @@ test.describe('itemproduct', () => {
             await page.goBack();
         })
 })
-test.describe('footer', () => {
-    test('footer_twitter', async () =>{
+test.describe('check footer', () => {
+    test('Check click footer_twitter', async () =>{
         const [newPage] = await Promise.all([
             context.waitForEvent('page'), // Chờ tab mới
             page.click('[data-test="social-twitter"]') // Nhấp vào icon Twitter
@@ -112,7 +112,7 @@ test.describe('footer', () => {
         await newPage.close();
         
      })
-    test('footer_facebook', async () =>{
+    test('Check click footer_facebook', async () =>{
             const [newPage] = await Promise.all([
                 context.waitForEvent('page'), // Chờ tab mới
                 page.click('[data-test="social-facebook"]') // Nhấp vào icon Twitter
@@ -128,7 +128,7 @@ test.describe('footer', () => {
             await newPage.close();
             
          })
-    test('footer_linkedin', async () =>{
+    test('Check click footer_linkedin', async () =>{
             const [newPage] = await Promise.all([
                 context.waitForEvent('page'), // Chờ tab mới
                 page.click('[data-test="social-linkedin"]') // Nhấp vào icon Twitter
@@ -148,9 +148,9 @@ test.describe('footer', () => {
 })
 
 
-test.describe('tab bar', () => {
+test.describe('Check tab bar', () => {
 
-    test('about', async ()=> {
+    test('Check click about', async ()=> {
         await page.getByRole('button', { name: 'Open Menu' }).click();
         await page.click('id=about_sidebar_link');
         const aboutURL = await page.url();
@@ -159,7 +159,7 @@ test.describe('tab bar', () => {
         await page.goBack();
     })
 
-    test ('reset app state', async () =>{
+    test ('Check click reset app state', async () =>{
         await page.getByRole('button', { name: 'Open Menu' }).click();
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
         const cart = await page.locator('[data-test="shopping-cart-link"]');  
@@ -181,7 +181,7 @@ test.describe('tab bar', () => {
 
     })
 
-    test('logout', async () => {
+    test('Ckeck click logout', async () => {
         await page.goto('https://www.saucedemo.com/');
         await page.fill('#user-name', "standard_user");
         await page.fill('#password', "secret_sauce");

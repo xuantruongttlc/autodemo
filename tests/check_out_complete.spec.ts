@@ -22,24 +22,20 @@ test.describe('check_out_Overview',  () => {
     })
     
    
-    test('button Back_home', async () => {
+    test('check click button Back_home', async () => {
         await page.click('[data-test="back-to-products"]')
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html');
-        await page.goBack();
     })
     
-    test('shoppingcart', async () => {
+    test('check click icon shoppingcart', async () => {
         await page.click('[data-test="shopping-cart-link"]')
         const aboutURL = await page.url();
         await expect(aboutURL).toBe('https://www.saucedemo.com/cart.html')
-        await page.goBack();
     })
 
-
-
-
-
-
+    test.afterEach(async () => {
+        await page.goBack();
+    })
 
     test.afterAll(async () => {
         if (page) {
