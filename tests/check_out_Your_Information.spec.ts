@@ -56,15 +56,19 @@ test.describe('Check empty fields',  () => {
 
     test('Check empty in lastname field', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
+        await page.fill('[data-test="lastName"]', "");
         await page.fill('[data-test="postalCode"]', "08324");
         await page.locator('[data-test="continue"]').click();
+        await page.waitForLoadState('networkidle')
         await checkErrorMessage('Error: Last Name is required');
     });
 
      test('Check empty in postal-code field', async () => {
         await page.fill('[data-test="firstName"]', "Dang");
-        await page.fill('[data-test="lastName"]', "Dang");
+        await page.fill('[data-test="lastName"]', "Truong");
+        await page.fill('[data-test="postalCode"]', "");
         await page.locator('[data-test="continue"]').click();
+        await page.waitForLoadState('networkidle')
         await checkErrorMessage('Error: Postal Code is required');
     });
 })
@@ -277,11 +281,11 @@ test.describe('check postalcode field', () => {
     })
 
 })
-//  test.afterAll(async () => {
-//         if (page) {
-//             await page.close();  
-//         }
-//         if (context) {
-//             await context.close();  
-//         }
-//     });
+ test.afterAll(async () => {
+        if (page) {
+            await page.close();  
+        }
+        if (context) {
+            await context.close();  
+        }
+    });
