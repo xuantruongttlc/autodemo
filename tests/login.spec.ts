@@ -1,5 +1,7 @@
+
 import { test, expect } from '@playwright/test';
 let page;
+
 
     // Khởi tạo trang và điều hướng đến trang web trước khi bắt đầu các test
     test.beforeAll(async ({ browser }) => {
@@ -108,6 +110,40 @@ test.describe('check password', () => {
         await page.click('id=login-button');
         await checkErrorMessage('Epic sadface: Username and password do not match any user in this service');
     });
+})
+
+test.describe('Check list accounts', () => {
+    const { chromium } = require('playwright');
+    const xlsx = require('xlsx');
+    test ('login list account', async () =>{
+        // const workBook = xlsx.tests('account.xlsx');
+        const workBook = xlsx.readFile('/Users/macos/Documents/data/Tester/BHSOFT/saucedemo/tests/account.xlsx');
+        const accounts = xlsx.utils.sheet_to_json(workBook.Sheets['Sheet1']); 
+        console.log('Danh sách tài khoản:', accounts);
+    
+        for (const account of accounts) {
+        
+            await page.fill('#user-name', account.username); 
+            await page.fill('#password', account.password);  
+
+        
+            await page.click('id=login-button');  
+            await page.waitForLoadState('networkidle')
+        
+            const url = await page.url();
+            if (url === 'https://www.saucedemo.com/inventory.html') {
+                console.log(`Login accessful: ${account.username}`);
+            } else {
+                const messagerError = await page.locator("h3[data-test='error']").textContent();
+                console.log(`Login fail: ${account.username} with error`, messagerError);
+                continue
+            }
+            
+            page.goBack();
+            await page.waitForLoadState('networkidle')
+    }
+    });
+
 })
 
 test.afterAll(async () => {
