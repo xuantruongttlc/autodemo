@@ -22,17 +22,10 @@ let home: Home
 
 test.describe('Check out the buttons in the cart', () => {
     test ('Check click button Continue shopping', async ()=>{
-        await page.click('[data-test="continue-shopping"]');
-        await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html')
-
+        await home.checkClickbutton('[data-test="continue-shopping"]', 'https://www.saucedemo.com/inventory.html');
     })
     test ('Check click buttoncheckout', async ()=> {
-        await page.click('[data-test="checkout"]');
-        await expect(page).toHaveURL('https://www.saucedemo.com/checkout-step-one.html')
-        
-    })
-    test.afterEach(async () => {
-        await page.goBack();
+        await home.checkClickbutton('[data-test="checkout"]','https://www.saucedemo.com/checkout-step-one.html' )
     })
 })
 test.describe('Check click item product', ()  => {
