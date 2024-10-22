@@ -19,7 +19,7 @@ test.beforeAll(async ({ browser  }) => {
 
 
 test.describe('check login', () =>{
-        // TH bỏ trống username và password
+        
         test('Check empty username and password fild', async () => {
             await loginPage.login("", "");
             await loginPage.checkMessage('Epic sadface: Username is required');
@@ -36,25 +36,25 @@ test.describe('check login', () =>{
         });
 });
     test.describe('Check username field', () => {
-        // TH bỏ trống username
+        
         test('Check empty username field', async () => {
             await loginPage.login("",passWord);
             await loginPage.checkMessage('Epic sadface: Username is required');
         });
     
-        // TH nhập space vào username
+      
         test('Check empty space username field ', async () => {
             await loginPage.login("         ",passWord);
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
         });
     
-        // Nhập username có khoảng trắng
+        
         test('Check enter a space between usernames field', async () => {
             await loginPage.login("standr     _user",passWord);
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
         });
     
-        // Nhập sai thông tin username
+        
         test('Check incorrect Username field information', async () => {
             await loginPage.login(userName + 1111,passWord);
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
@@ -67,7 +67,7 @@ test.describe('check login', () =>{
             await loginPage.checkMessage('Epic sadface: Password is required');
         });
     
-        // Nhập khoảng trắng vào password
+        
         test('Check empty space password field', async () => {
             await page.fill('#user-name', "standard_user");
             await page.fill('#password', "          ");
@@ -76,13 +76,13 @@ test.describe('check login', () =>{
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
         });
     
-        // Nhập password có chứa khoảng trắng
+        
         test('Check enter a space between password field', async () => {
             await loginPage.login(userName, "secrect_     sauce");
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
         });
     
-        // Nhập sai password
+        
         test('Check incorrect password field information field', async () => {
             await loginPage.login(userName, passWord + 11111);
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');

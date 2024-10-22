@@ -54,13 +54,12 @@ export class Home{
             this.page.click(icon)
         ]);
 
-        // Chờ trang trong tab mới tải hoàn tất
         await newPage.waitForLoadState('domcontentloaded');
 
-        // Kiểm tra URL của tab mới
+      
         await expect(newPage).toHaveURL(url);
 
-        // Đóng tab mới
+       
         if (!newPage.isClosed()) {
           await newPage.close();
       }
