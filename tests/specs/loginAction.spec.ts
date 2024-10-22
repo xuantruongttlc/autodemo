@@ -69,9 +69,6 @@ test.describe('check login', () =>{
     
         
         test('Check empty space password field', async () => {
-            await page.fill('#user-name', "standard_user");
-            await page.fill('#password', "          ");
-            await page.click('id=login-button');
             await loginPage.login(userName, "        ");
             await loginPage.checkMessage('Epic sadface: Username and password do not match any user in this service');
         });
