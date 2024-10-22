@@ -22,10 +22,10 @@ export class Home{
     this.passWord = process.env.PASS_WORD || '';
     this.buttonCart = process.env.BUTTON_SHOPPING_CART || '';
     this.urlShoppingCart = process.env.URL_SHOPPING_CART || '';
-    this.nameProduct = process.env.NAME_PRODUCT4 || '';
-    this.urlProduct = process.env.ITEM_PRODUCT4 || ''
-    this.buttonADD = process.env.BUTTON_ADD_PRODUCT1 || '';
-    this.buttonRemove = process.env.BUTTON_REMOTE1 ||'';
+    this.nameProduct = process.env.NAME_PRODUCT || '';
+    this.urlProduct = process.env.ITEM_PRODUCT || ''
+    this.buttonADD = process.env.BUTTON_ADD_PRODUCT || '';
+    this.buttonRemove = process.env.BUTTON_REMOTE ||'';
     
     if (!this.userName || !this.passWord || !this.buttonCart || !this.urlShoppingCart 
         || !this.nameProduct || !this.buttonADD || !this.buttonRemove || !this.urlProduct) {
