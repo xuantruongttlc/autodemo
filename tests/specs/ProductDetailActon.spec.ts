@@ -21,9 +21,9 @@ let home: Home
 test.describe('Check product detail', () => {
     
     test ('Check click button back to product', async () => {
-        // await page.click('[data-test="item-4-title-link"]');
         await page.click('#back-to-products');
         await expect(page).toHaveURL('https://www.saucedemo.com/inventory.html')
+        await page.goBack();
     })
     test('check click button add/remote to cart', async () => {
         const item = await page.locator(home.nameProduct)

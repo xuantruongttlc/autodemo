@@ -77,7 +77,7 @@ test.describe('check itemproduct', () => {
 
             
             await home.checkProduct("Remove");
-            page.goBack();
+            await page.goBack();
     
             await buttonRemove.click();
     
@@ -87,6 +87,8 @@ test.describe('check itemproduct', () => {
             await expect(iconCart).toBeVisible();
 
             await home.checkProduct("Add to cart");
+            await page.goBack()
+
             
 
         })
@@ -126,7 +128,8 @@ test.describe('Check tab bar', () => {
     })
 
     test('Ckeck click logout', async () => {
-        await home.checkClickbutton('[data-test="logout-sidebar-link"]', 'https://www.saucedemo.com/');
+        await page.click('[data-test="logout-sidebar-link"]');
+        await expect(page).toHaveURL('https://www.saucedemo.com/');
     })
 
 })
