@@ -1,10 +1,8 @@
 import { test, expect, Page } from '@playwright/test';
 import { LoginPage } from '../page/login.page';
 import { Home } from '../page/home.page';
-import { it } from 'node:test';
 
 let page : Page;
-let context; 
 let loginPage: LoginPage
 let home: Home
 
@@ -57,9 +55,6 @@ test.describe('Check product detail', () => {
     test.afterAll(async () => {
         if (page) {
             await page.close(); 
-        }
-        if (context) {
-            await context.close();
         }
     });
 })

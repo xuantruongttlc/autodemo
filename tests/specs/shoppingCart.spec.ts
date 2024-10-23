@@ -5,7 +5,6 @@ import { Home } from '../page/home.page';
 
 
 let page : Page;
-let context; 
 let loginPage: LoginPage
 let home: Home
 
@@ -14,6 +13,7 @@ let home: Home
         page = await browser.newPage(); 
         loginPage = new LoginPage(page);
         home = new Home(page);
+
         await loginPage.goto();
         await loginPage.login(home.userName, home.passWord);
         await home.buttonADD.click();
@@ -45,8 +45,5 @@ test.describe('Check click item product', ()  => {
     test.afterAll(async () => {
         if (page) {
             await page.close(); 
-        }
-        if (context) {
-            await context.close();  
         }
     });

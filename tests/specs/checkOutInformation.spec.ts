@@ -6,7 +6,6 @@ import { Checkout } from '../page/lcheckout.page';
 
 
 let page : Page;
-let context; 
 let loginPage: LoginPage
 let home: Home
 let checkout: Checkout
@@ -169,8 +168,5 @@ test.describe('check_out_Your_Information',  () => {
     test.afterAll(async () => {
         if (page) {
             await page.close(); 
-        }
-        if (context) {
-            await context.close();  
         }
     });

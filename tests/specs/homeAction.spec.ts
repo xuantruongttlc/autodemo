@@ -5,7 +5,6 @@ import { Home } from '../page/home.page';
 
 
 let page : Page;
-let context; 
 let loginPage: LoginPage
 let home: Home
 
@@ -137,8 +136,5 @@ test.describe('Check tab bar', () => {
 test.afterAll(async () => {
         if (page) {
             await page.close(); 
-        }
-        if (context) {
-            await context.close();  
         }
     });

@@ -9,7 +9,6 @@ let home: Home
 let checkout: Checkout
 test.describe('check_out_Overview',  () => {
     let page;
-    let context
     test.beforeAll( async ({browser}) => {
         page = await browser.newPage(); 
         loginPage = new LoginPage(page);
@@ -36,9 +35,6 @@ test.describe('check_out_Overview',  () => {
     test.afterAll(async () => {
         if (page) {
             await page.close();  
-        }
-        if (context) {
-            await context.close();  
         }
     });
 
