@@ -1,5 +1,4 @@
-import { Page, expect } from '@playwright/test';
-import { Context } from 'vm';
+import { Locator, Page, expect } from '@playwright/test';
 
 
 
@@ -7,12 +6,12 @@ export class Home{
   readonly page: Page;
   readonly userName: string;
   readonly passWord: string;
-  readonly buttonCart: string;
+  readonly buttonCart: Locator;
   readonly urlShoppingCart: string;
-  readonly nameProduct: string;
+  readonly nameProduct: Locator;
   readonly urlProduct: string;
-  readonly buttonADD: string;
-  readonly buttonRemove: string;
+  readonly buttonADD: Locator;
+  readonly buttonRemove: Locator;
 
 
 
@@ -20,15 +19,14 @@ export class Home{
     this.page = page;
     this.userName = process.env.USER_NAME || '';
     this.passWord = process.env.PASS_WORD || '';
-    this.buttonCart = process.env.BUTTON_SHOPPING_CART || '';
-    this.urlShoppingCart = process.env.URL_SHOPPING_CART || '';
-    this.nameProduct = process.env.NAME_PRODUCT || '';
-    this.urlProduct = process.env.ITEM_PRODUCT || ''
-    this.buttonADD = process.env.BUTTON_ADD_PRODUCT || '';
-    this.buttonRemove = process.env.BUTTON_REMOTE ||'';
+    this.buttonCart = page.locator('[data-test="shopping-cart-link"]');
+    this.urlShoppingCart = 'https://www.saucedemo.com/cart.html';
+    this.nameProduct = page.locator(process.env.NAME_PRODUCT!);
+    this.urlProduct = process.env.ITEM_PRODUCT || '';
+    this.buttonADD = page.locator(process.env.BUTTON_ADD_PRODUCT!)
+    this.buttonRemove = page.locator(process.env.BUTTON_REMOVE!);
     
-    if (!this.userName || !this.passWord || !this.buttonCart || !this.urlShoppingCart 
-        || !this.nameProduct || !this.buttonADD || !this.buttonRemove || !this.urlProduct) {
+    if (!this.userName || !this.passWord) {
         throw new Error("Missing environment variables");
     }
   }
@@ -37,13 +35,13 @@ export class Home{
     if(status === "Remove"){
         await this.page.goto(this.urlShoppingCart);
                 
-        const product = await this.page.locator(this.nameProduct)
+        const product = await this.nameProduct;
         await expect(product).toBeVisible();
     }
     else{
         await this.page.goto(this.urlShoppingCart);
                 
-        const product = await this.page.locator(this.nameProduct)
+        const product = await this.nameProduct
         await expect(product).not.toBeVisible();
     }
   }
@@ -65,8 +63,8 @@ export class Home{
       }
   }
 
-  async checkClickbutton(button: string, url: string){
-        await this.page.click(button);
+  async checkClickbutton(button: Locator, url: string){
+        await button.click();
         await expect(this.page).toHaveURL(url);
         await this.page.goBack();
   }

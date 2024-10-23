@@ -14,7 +14,7 @@ let home: Home
         home = new Home(page);
         await loginPage.goto();
         await loginPage.login(home.userName, home.passWord);
-        await page.click(home.nameProduct);
+        await home.nameProduct.click();
 
     });
 
@@ -26,9 +26,9 @@ test.describe('Check product detail', () => {
         await page.goBack();
     })
     test('check click button add/remote to cart', async () => {
-        const item = await page.locator(home.nameProduct)
+        const item = await home.nameProduct;
         const buttonAddToCart =   await page.locator('[data-test="add-to-cart"]');
-        const iconCart =  await page.locator(home.buttonCart);
+        const iconCart =  await home.buttonCart;
 
         await expect(buttonAddToCart).toHaveText('Add to cart');
         await expect(iconCart).toBeVisible();

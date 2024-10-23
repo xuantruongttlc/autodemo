@@ -11,14 +11,14 @@ const userName = process.env.USER_NAME!;
 const passWord = process.env.PASS_WORD!;
   
 
-test.beforeAll(async ({ browser  }) => {
+    test.beforeAll(async ({ browser  }) => {
         page = await browser.newPage(); 
         loginPage = new LoginPage(page);
         await loginPage.goto();
-});
+    });
 
 
-test.describe('check login', () =>{
+    test.describe('check login', () =>{
         
         test('Check empty username and password fild', async () => {
             await loginPage.login("", "");
@@ -34,7 +34,7 @@ test.describe('check login', () =>{
             await expect(homeTitle).toBe('Swag Labs');
             await page.goBack();
         });
-});
+    });
     test.describe('Check username field', () => {
         
         test('Check empty username field', async () => {

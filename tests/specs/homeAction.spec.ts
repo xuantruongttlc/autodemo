@@ -62,16 +62,16 @@ test.describe('check itemproduct', () => {
     })
     
     test('check click button add/remote to cart', async () => {
-            const item = await page.locator(home.nameProduct)
-            const buttonAddToCart =   await page.locator(home.buttonADD);
-            const iconCart =  await page.locator(home.buttonCart);
+            const item = await home.nameProduct
+            const buttonAddToCart =   await home.buttonADD
+            const iconCart =  await home.buttonCart;
             
             await expect(buttonAddToCart).toHaveText('Add to cart');
             await expect(iconCart).toBeVisible();
             
             await buttonAddToCart.click();
     
-            const buttonRemove = page.locator(home.buttonRemove);
+            const buttonRemove = home.buttonRemove;
             await expect(buttonRemove).toHaveText('Remove');
             await expect(iconCart).toHaveText('1');
 
@@ -112,17 +112,18 @@ test.describe('Check tab bar', () => {
     })
 
     test('Check click about', async ()=> {
-        await home.checkClickbutton('id=about_sidebar_link', 'https://saucelabs.com/');
+        await home.checkClickbutton(page.locator('id=about_sidebar_link'), 'https://saucelabs.com/');
     })
 
     test ('Check click reset app state', async () =>{
         const resetApp = await page.locator('[data-test="reset-sidebar-link"]');
-        const cart = await page.locator(home.buttonCart);  
-        await page.click(home.buttonADD);
+        const cart = await home.buttonCart;  
+        await home.buttonADD.click();
         await resetApp.click();
         await expect(cart).toHaveText('');
         await page.goto(home.urlShoppingCart);
-        await expect(page.locator(home.buttonADD)).not.toBeVisible();
+        const buttonAdd = home.buttonADD
+        await expect(buttonAdd).not.toBeVisible();
         await page.goBack();
 
     })

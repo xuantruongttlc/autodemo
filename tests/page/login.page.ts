@@ -1,18 +1,20 @@
-import { Page, expect } from '@playwright/test';
+import { Locator, Page, expect } from '@playwright/test';
 
 export class LoginPage {
   readonly page: Page;
   readonly userName: string;
   readonly passWord: string;
-  readonly buttonLogin: string;
-  readonly message: string;
+  readonly buttonLogin: Locator;
+  readonly message: Locator;
+  readonly buttonClose: Locator;
 
   constructor(page: Page) {
     this.page = page;
     this.userName = '#user-name';
     this.passWord = '#password';
-    this.buttonLogin = 'id=login-button';
-    this.message = 'h3[data-test=error]';
+    this.buttonLogin = page.locator('[data-test="login-button"]');
+    this.message = page.locator('h3[data-test=error]');
+    this.buttonClose = page.locator('[data-test="error-button"]')
   }
 
   async goto() {
@@ -22,16 +24,16 @@ export class LoginPage {
   async login(username: string, password: string) {
     await this.page.fill(this.userName, username);
     await this.page.fill(this.passWord, password);
-    await this.page.click(this.buttonLogin);
+    await this.buttonLogin.click();
   }
 
   async checkMessage(expectedMessage: string) {
-    const errorLocator = this.page.locator(this.message); 
+    const errorLocator = await this.message; 
 
     const errorMessage = await errorLocator.textContent();
     await expect(errorMessage?.trim()).toBe(expectedMessage);
 
-    const closeButton = await errorLocator.locator('button');
+    const closeButton = await this.buttonClose;
     await closeButton.click();
     await expect(closeButton).not.toBeVisible();
   }

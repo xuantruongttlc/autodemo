@@ -19,10 +19,10 @@ test.describe('check_out_Overview',  () => {
         checkout = new Checkout(page);
         await loginPage.goto();
         await loginPage.login(home.userName, home.passWord);
-        await page.click(home.buttonADD);
-        await page.click(home.buttonCart);
+        await home.buttonADD.click();
+        await home.buttonCart.click();
         await page.click('[data-test="checkout"]');
-        await checkout.checksenkeyOK(checkout.first_Name, checkout.last_Name, checkout.postall_code);
+        await checkout.checksendkeyOK(checkout.first_Name, checkout.last_Name, checkout.postall_code);
 
     })
     
@@ -31,11 +31,11 @@ test.describe('check_out_Overview',  () => {
     })
 
     test('check click button_cancel', async () => {
-        await checkout.checkClickbutton('[data-test="cancel"]','https://www.saucedemo.com/inventory.html' )
+        await checkout.checkClickbutton(page.locator('[data-test="cancel"]'),'https://www.saucedemo.com/inventory.html' )
     })
 
     test('check click button_finish', async () => {
-        await checkout.checkClickbutton('[data-test="finish"]', 'https://www.saucedemo.com/checkout-complete.html' )
+        await checkout.checkClickbutton(page.locator('[data-test="finish"]'), 'https://www.saucedemo.com/checkout-complete.html' )
     })
 
     test.afterAll(async () => {

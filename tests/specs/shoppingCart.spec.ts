@@ -16,16 +16,16 @@ let home: Home
         home = new Home(page);
         await loginPage.goto();
         await loginPage.login(home.userName, home.passWord);
-        await page.click(home.buttonADD);
-        await page.click(home.buttonCart);
+        await home.buttonADD.click();
+        await home.buttonCart.click();
     });
 
 test.describe('Check out the buttons in the cart', () => {
     test ('Check click button Continue shopping', async ()=>{
-        await home.checkClickbutton('[data-test="continue-shopping"]', 'https://www.saucedemo.com/inventory.html');
+        await home.checkClickbutton(page.locator('[data-test="continue-shopping"]'), 'https://www.saucedemo.com/inventory.html');
     })
     test ('Check click buttoncheckout', async ()=> {
-        await home.checkClickbutton('[data-test="checkout"]','https://www.saucedemo.com/checkout-step-one.html' )
+        await home.checkClickbutton(page.locator('[data-test="checkout"]'),'https://www.saucedemo.com/checkout-step-one.html' )
     })
 })
 test.describe('Check click item product', ()  => {
@@ -34,7 +34,7 @@ test.describe('Check click item product', ()  => {
     })
 
      test('Check click button remote product', async () => {
-        const buttoRemote = await page.locator(home.buttonRemove); 
+        const buttoRemote = await home.buttonRemove; 
         await buttoRemote.click();
         await expect(buttoRemote).not.toBeVisible();
 
