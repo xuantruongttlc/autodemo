@@ -51,11 +51,11 @@ test.describe('Check about file', () => {
             const buttonboderless = await page.locator("button[title='Toggle borderless mode']")
             await buttonboderless.click
             await page.waitForTimeout(1000);
-            await popup.checkBorderless(buttonboderless);
+            await popup.checkBorderless(buttonboderless!);
 
             await page.waitForTimeout(1000);
             await buttonboderless.click();
-            await popup.checkNotBorderless(buttonboderless);
+            await popup.checkNotBorderless(buttonboderless!);
 
         })
 

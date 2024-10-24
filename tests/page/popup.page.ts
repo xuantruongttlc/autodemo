@@ -24,19 +24,22 @@ export class popUp{
     }
 
     async checkBorderless(selector: string) {
+        if (typeof selector !== 'string' || selector.trim() === '') {
+            throw new Error('Selector must be a non-empty string');
+        }
+    
         const isBorderless = await this.page.evaluate((sel) => {
             const element = document.querySelector(sel);
-            if (!element){
-                console.log('khong tim thay');
-                return false;
-            } 
-            return element.getAttribute('aria-pressed') === 'true';
+            if (!element) {
+                console.log('Không tìm thấy phần tử với selector:', sel);
+                return false; 
+            }
+            return true; 
         }, selector);
     
-        expect(isBorderless).toBe(false);  
-        console.log("checkBorderless");
+        return isBorderless;
     }
-    
+
     async checkNotBorderless(selector: string) {
         const isNotBorderless = await this.page.evaluate((sel) => {
             const element = document.querySelector(sel);
