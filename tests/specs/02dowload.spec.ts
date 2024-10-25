@@ -1,4 +1,4 @@
-import { dowload_File } from './../page/dowloadfile.page';
+import { dowload_File } from '../page/dowloadfile.page';
 import { test, expect } from '@playwright/test';
 import { Login } from '../page/login.page';
 import fs from 'fs';

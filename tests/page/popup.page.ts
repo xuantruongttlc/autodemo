@@ -1,4 +1,5 @@
 import { Page, Locator, expect } from '@playwright/test';
+import { execPath } from 'process';
 
 export class popUp{
     constructor(private page: Page){
@@ -23,35 +24,27 @@ export class popUp{
         console.log("check not fullcreen")
     }
 
+    // async checkBorderless(selector: string) {
+    //     const isNotBorderless = await this.page.evaluate((sel) => {
+    //         const element = document.querySelector(sel);
+    //         if (!element){
+    //             return false;
+    //         } 
+    //         console.log('aria-pressed = false');
+    //         return element.getAttribute('aria-pressed') === 'false';
+    //     }, selector);
+    
+    //     expect(isNotBorderless).toBe(false);  
+    //     console.log("checkNotBorderless");
+    // }
     async checkBorderless(selector: string) {
-        if (typeof selector !== 'string' || selector.trim() === '') {
-            throw new Error('Selector must be a non-empty string');
-        }
-    
-        const isBorderless = await this.page.evaluate((sel) => {
-            const element = document.querySelector(sel);
-            if (!element) {
-                console.log('Không tìm thấy phần tử với selector:', sel);
-                return false; 
-            }
-            return true; 
-        }, selector);
-    
-        return isBorderless;
+        const buttonboderlessnotfull = await this.page.locator(selector)
+        await expect(buttonboderlessnotfull).toBeVisible();
     }
 
     async checkNotBorderless(selector: string) {
-        const isNotBorderless = await this.page.evaluate((sel) => {
-            const element = document.querySelector(sel);
-            if (!element){
-                return false;
-            } 
-            console.log('aria-pressed = false');
-            return element.getAttribute('aria-pressed') === 'false';
-        }, selector);
-    
-        expect(isNotBorderless).toBe(false);  
-        console.log("checkNotBorderless");
+        const buttonboderlessfull = await this.page.locator(selector)
+        await expect(buttonboderlessfull).toBeVisible();
     }
     
 

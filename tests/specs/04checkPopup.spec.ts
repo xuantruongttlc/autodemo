@@ -34,13 +34,13 @@ test.describe('Check about file', () => {
         })
 
         test('check click once on fullscreen button', async () => {
-            const buttonScreen = await page.locator("(//i[@class='glyphicon glyphicon-fullscreen'])[1]")
-            buttonScreen.click();
+           
+            await page.click("button[title='Toggle full screen']");
 
             await page.waitForTimeout(1000);
             await popup.checkFullscreen();
 
-            await buttonScreen.click();
+            await page.click(".glyphicon.glyphicon-fullscreen");
 
             await page.waitForTimeout(1000);
             await popup.checkNotFullscreen();
@@ -48,14 +48,13 @@ test.describe('Check about file', () => {
         })
 
         test('check Click button borderless', async () => {
-            const buttonboderless = await page.locator("button[title='Toggle borderless mode']")
-            await buttonboderless.click
+            await page.click("button[title='Toggle borderless mode']")
             await page.waitForTimeout(1000);
-            await popup.checkBorderless(buttonboderless!);
+            await popup.checkBorderless(".glyphicon.glyphicon-resize-full");
 
             await page.waitForTimeout(1000);
-            await buttonboderless.click();
-            await popup.checkNotBorderless(buttonboderless!);
+            await page.locator(".glyphicon.glyphicon-resize-full").click();
+            await popup.checkNotBorderless("button[title='Toggle borderless mode']");
 
         })
 

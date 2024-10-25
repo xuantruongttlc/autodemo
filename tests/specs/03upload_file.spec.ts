@@ -14,32 +14,32 @@ test.beforeAll(async ({ browser }) => {
     await page.click("a[href='FileUpload.html']");
 });
 
-test.describe('Check uploadFile', () => {
+test.describe('Check uploadFile', () =>  {
+
     test('UploadFile', async () => {
         const upload = await page.locator('#input-4');
         await upload.setInputFiles(process.env.FILE1);
         await page.waitForTimeout(1000);
-        await uploadfile.checkTobeVisible("(//div[@class='file-preview-other'])[1]");
-        await uploadfile.checkTobeVisible("(//span[normalize-space()='Remove'])[1]");
+        await uploadfile.checkTobeVisible('//body/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/object[1]/div[1]/span[1]/i[1]')
     });
     
     test('Check click button remove', async () => {
-        await uploadfile.checkTobeVisible("(//span[normalize-space()='Remove'])[1]");
-        await page.click("(//span[normalize-space()='Remove'])[1]");
+        const buttonremove = "//span[contains(text(),'Remove')]"
+        await uploadfile.checkTobeVisible(buttonremove);
+        await page.click(buttonremove);
         await page.waitForTimeout(1000);
-        await uploadfile.checkNotTobeVisible("(//div[@class='file-preview-other'])[1]");
+        await uploadfile.checkNotTobeVisible(buttonremove);
     });
 
     test('check click button UploadFile', async () => {
         const upload = await page.locator('#input-4');
         await upload.setInputFiles(process.env.FILE2);
         await page.waitForTimeout(1000);
-        await uploadfile.checkTobeVisible("(//div[@class='file-preview-other'])[1]");
-        await uploadfile.checkTobeVisible("(//span[normalize-space()='Remove'])[1]");
+        await uploadfile.checkTobeVisible("//body/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[1]/object[1]/div[1]/span[1]/i[1]")
     });
+
     test('check Click button zoom', async () => {
-        await uploadfile.checkTobeVisible("(//div[@class='file-preview-other'])[1]");
-        await page.click("(//button[@title='View Details'])[1]")
+        await page.click("//body/section[1]/div[1]/div[1]/div[1]/div[1]/div[1]/div[2]/div[1]/div[1]/div[2]/div[3]/div[1]/button[1]/i[1]")
        
         const popupSelector = '.modal-dialog'; 
         await page.waitForSelector(popupSelector);
