@@ -17,7 +17,7 @@ test.beforeAll(async ({ browser }) => {
 test.describe("test alerts with ok", () => {
     test('alerts with ok', async () => {
         await alert.checkAlert()
-        await page.click("(//button[contains(text(),'click the button to display an')])[2]"); //1
+        await page.click("(//button[contains(text(),'click the button to display an')])[1]"); //1
         await page.waitForTimeout(1000);
     })
 
