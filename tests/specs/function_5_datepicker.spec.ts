@@ -13,21 +13,28 @@ test.beforeAll(async ({ browser }) => {
     await page.click("(//a[normalize-space()='Widgets'])[1]");
     await page.click("(//a[normalize-space()='Datepicker'])[1]");
 });
+test.describe("datepicker", () => {
+    test("datepictdefaut", async () => {
+        const year = process.env.YEAR;
+        const month = process.env.MONTH;
+        const date = process.env.DATE;
+    
+        await page.click("#datepicker1");
+        await page.waitForTimeout(1000);
+        await datepicker.checkYearMont(year!, month!);
+        await page.waitForSelector(".ui-datepicker");
+    
+        await page.click(`//a[@class='ui-state-default'][text()= '${date}']`);
+    
+        await page.waitForTimeout(1000);
+    });
+    
+    test("datepicker not defaut", async() => {
+        await page.fill("(//input[@id='datepicker2'])[1]", process.env.DATEPICKER);
+    })
+})
 
-test("datepictdefaut", async () => {
-    const year = process.env.YEAR;
-    const month = process.env.MONTH;
-    const date = process.env.DATE;
 
-    await page.click("#datepicker1");
-    await page.waitForTimeout(1000);
-    await datepicker.checkYearMont(year!, month!);
-    await page.waitForSelector(".ui-datepicker");
-
-    await page.click(`//a[@class='ui-state-default'][text()= '${date}']`);
-
-    await page.waitForTimeout(1000);
-});
 
 test.afterAll(async () => {
     if (page) {
